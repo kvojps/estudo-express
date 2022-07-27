@@ -9,7 +9,7 @@ app.get('/api/people', (req, res) => {
         return {id, name}
     })
 
-    res.json(newPeople)
+    res.status(200).json(newPeople)
 })
 
 app.get('/api/people/:personId', (req, res) => {
@@ -20,7 +20,7 @@ app.get('/api/people/:personId', (req, res) => {
         return res.status(404).send('Person does not exists')
     }
 
-    res.json(person)
+    res.status(200).json(person)
 })
 
 app.get('/api/v1/people/query', (req, res) => {
@@ -37,7 +37,11 @@ app.get('/api/v1/people/query', (req, res) => {
         sortedPeople = sortedPeople.slice(0, Number(limit))
     }
 
-    res.json(sortedPeople)
+    if(sortedPeople.length < 1) {
+        return res.status(200).json({success: true, data: []})
+    }
+
+    res.status(200).json(sortedPeople)
 })
 
 app.listen(5000, (req, res) => {
