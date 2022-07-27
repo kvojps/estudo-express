@@ -23,6 +23,23 @@ app.get('/api/people/:personId', (req, res) => {
     res.json(person)
 })
 
+app.get('/api/v1/people/query', (req, res) => {
+    const {search, limit} = req.query
+    let sortedPeople = [...people]
+    
+    if(search) {
+        sortedPeople = sortedPeople.filter((person) => {
+            return person.name.startsWith(search)
+        })
+    }
+
+    if(limit) {
+        sortedPeople = sortedPeople.slice(0, Number(limit))
+    }
+
+    res.json(sortedPeople)
+})
+
 app.listen(5000, (req, res) => {
     console.log('listening on port 5000')
 })
